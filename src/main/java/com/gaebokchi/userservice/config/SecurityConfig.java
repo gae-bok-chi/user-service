@@ -1,4 +1,4 @@
-package com.gaebokchi.backendskeleton.config;
+package com.gaebokchi.userservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

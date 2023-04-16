@@ -1,4 +1,4 @@
-# backend-skeleton
+# user-service
 
 ## 사용기술
 - Java 17
@@ -8,3 +8,7 @@
 - Spring Cloud
 - Junit5
 - Docker
+
+## 서비스 기능
+- 회원가입
+- 로그인

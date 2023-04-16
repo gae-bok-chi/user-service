@@ -1,6 +1,6 @@
-package com.gaebokchi.backendskeleton.controller;
+package com.gaebokchi.userservice.controller;
 
-import com.gaebokchi.backendskeleton.Service.ExamService;
+import com.gaebokchi.userservice.service.ExamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

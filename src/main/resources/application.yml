@@ -19,7 +19,7 @@ spring:
     generate-ddl: true
 
   application:
-    name: backend-skeleton-service
+    name: user-service
 
 logging:
   level:

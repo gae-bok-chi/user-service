@@ -1,4 +1,4 @@
-package com.gaebokchi.backendskeleton.Service;
+package com.gaebokchi.userservice.service;
 
 import org.springframework.stereotype.Service;
 

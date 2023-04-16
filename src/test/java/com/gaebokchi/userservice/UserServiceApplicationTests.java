@@ -1,10 +1,10 @@
-package com.gaebokchi.backendskeleton;
+package com.gaebokchi.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendSkeletonApplicationTests {
+class UserServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
