@@ -23,9 +23,8 @@ spring:
 
 logging:
   level:
-    org:
-      springframework:
-        web:
-          filter: DEBUG
-      hibernate:
+    org.springframework:
+        web: info
+        web.filter: DEBUG
+    org.hibernate:
         SQL=DEBUG:
