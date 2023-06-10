@@ -1,7 +1,7 @@
 package com.gaebokchi.userservice.config;
 
 import com.gaebokchi.userservice.filter.JwtVerificationFilter;
-import com.gaebokchi.userservice.handler.OAuth2MemberSuccessHandler;
+import com.gaebokchi.userservice.handler.OAuth2UserSuccessHandler;
 import com.gaebokchi.userservice.service.UserService;
 import com.gaebokchi.userservice.utils.JwtTokenProvider;
 import com.gaebokchi.userservice.vo.Role;
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtVerificationFilter(jwtTokenProvider, userService), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
 //                .loginPage("/login")
-                .successHandler(oAuth2MemberSuccessHandler());
+                .successHandler(oAuth2UserSuccessHandler());
 //                .failureHandler()
 //                .userInfoEndpoint().userService(customOAuth2UserService);
 
@@ -67,8 +67,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public OAuth2MemberSuccessHandler oAuth2MemberSuccessHandler() {
-        return new OAuth2MemberSuccessHandler(jwtTokenProvider, userService);
+    public OAuth2UserSuccessHandler oAuth2UserSuccessHandler() {
+        return new OAuth2UserSuccessHandler(jwtTokenProvider, userService);
     }
 
     @Bean
