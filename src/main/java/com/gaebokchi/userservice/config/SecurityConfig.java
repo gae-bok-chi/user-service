@@ -2,7 +2,6 @@ package com.gaebokchi.userservice.config;
 
 import com.gaebokchi.userservice.filter.JwtVerificationFilter;
 import com.gaebokchi.userservice.handler.OAuth2MemberSuccessHandler;
-import com.gaebokchi.userservice.service.CustomOAuth2UserService;
 import com.gaebokchi.userservice.service.UserService;
 import com.gaebokchi.userservice.utils.JwtTokenProvider;
 import com.gaebokchi.userservice.vo.Role;
@@ -25,8 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @SuppressWarnings("unused")
-    private final CustomOAuth2UserService customOAuth2UserService;
+    //    @SuppressWarnings("unused")
+//    private final CustomOAuth2UserService customOAuth2UserService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
