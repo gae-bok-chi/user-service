@@ -53,7 +53,8 @@ public class SecurityConfig {
 
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout_success")
                 .and()
                 .addFilterBefore(new JwtVerificationFilter(jwtTokenProvider, userService), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()

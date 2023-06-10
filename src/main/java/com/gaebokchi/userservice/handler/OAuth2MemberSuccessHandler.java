@@ -5,6 +5,8 @@ import com.gaebokchi.userservice.utils.JwtTokenProvider;
 import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -26,6 +28,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    @Autowired
+    private Environment env;
 
     @SuppressWarnings("RedundantThrows")
     @Override
@@ -68,7 +72,10 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         queryParams.add("refresh_token", refreshToken);
 
         return UriComponentsBuilder.newInstance()
-                .scheme("http").host("localhost").port(8080).path("/home").queryParams(queryParams)
+                .scheme("http")
+//                .host("gaebokchi.duckdns.org")
+                .host(env.getProperty("LOGIN_REDIRECT_URL"))
+                .port(8080).path("/user-service/home").queryParams(queryParams)
                 .build().toUri();
     }
 }

@@ -2,9 +2,8 @@ package com.gaebokchi.userservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
@@ -30,11 +29,8 @@ public class UserController {
         return Collections.singletonMap("logout", "success");
     }
 
-    @GetMapping("/hello-oauth2")
-    public String home() {
-        OAuth2User oAuth2User = (OAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(oAuth2User);
-        System.out.println("User's email in Google: " + oAuth2User.getAttributes().get("email"));
-        return "home-oauth2";
+    @GetMapping("/home")
+    public Map<?, ?> home(@RequestParam(value = "access_token") String accessToken, @RequestParam(value = "refresh_token ") String refreshToken) {
+        return Map.of("access_token", accessToken, "refresh_token", refreshToken);
     }
 }
