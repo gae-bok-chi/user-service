@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/home")
-    public Map<?, ?> home(@RequestParam(value = "access_token") String accessToken, @RequestParam(value = "refresh_token ") String refreshToken) {
+    public Map<?, ?> home(@RequestParam(value = "access_token") String accessToken, @RequestParam(value = "refresh_token") String refreshToken) {
         return Map.of("access_token", accessToken, "refresh_token", refreshToken);
     }
 }
