@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
         run:
-          cp src/main/resources/application.yaml.template ./src/main/resources/application.yaml
+          cp src/main/resources/application.yml.template ./src/main/resources/application.yml
 
       ## gradle test
       - name: Test with Gradle
