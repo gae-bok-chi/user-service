@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 //@Service
@@ -43,14 +44,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         /* OAuth2UserService */
         OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 //        User user = saveOrUpdate(attributes);
-        Map<String, Object> memberAttribute = oAuth2Attributes.convertToMap();
-
-        System.out.println("CustomOAuth2UserService.loadUser");
-        System.out.println("memberAttribute = " + memberAttribute);
+        Map<String, Object> userAttribute = oAuth2Attributes.convertToMap();
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(Role.USER.getValue())),
-                memberAttribute, "email");
+                userAttribute, "email");
     }
 
     private void validateUserNameAttributeName(String userNameAttributeName) {

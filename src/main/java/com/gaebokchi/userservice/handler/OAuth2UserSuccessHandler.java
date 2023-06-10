@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
@@ -39,11 +39,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String email = oAuth2User.getAttribute("email");
         List<Role> authorities = List.of(Role.USER);
 
-        System.out.println("OAuth2MemberSuccessHandler.onAuthenticationSuccess");
-        System.out.println("email = " + email);
-        System.out.println("authorities = " + authorities);
-
-        /* OAuth2UserService */
         userService.saveUser(oAuth2User);
         redirection(request, response, email, authorities);
     }

@@ -11,13 +11,8 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController
-public class UserController {
-
-    @GetMapping("/health_check")
-    public Map<?, ?> healthCheck() {
-        return Collections.singletonMap("status", "up");
-    }
+@RestController("/api/v1")
+public class UserControllerV1 {
 
     @GetMapping("/login_success")
     public Map<?, ?> loginCheck() {
