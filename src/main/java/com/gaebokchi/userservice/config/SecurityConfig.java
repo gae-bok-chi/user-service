@@ -5,6 +5,7 @@ import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOauth2UserService;
+    private final Environment env;
 
     @Bean
     public BCryptPasswordEncoder encoder() {
@@ -45,7 +47,7 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("/login_success")
+                .defaultSuccessUrl("http://" + env.getProperty("API_GATEWAY_URI") + "/user-service/login_success")
                 .userInfoEndpoint()
                 .userService(customOauth2UserService);
 
