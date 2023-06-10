@@ -49,8 +49,7 @@ dependencies {
 
     // DB
     implementation 'org.postgresql:postgresql:42.6.0'
-//    implementation 'org.hibernate:hibernate-entitymanager:5.6.15.Final'
-
+    testImplementation 'com.h2database:h2:2.1.214'
 }
 
 dependencyManagement {
