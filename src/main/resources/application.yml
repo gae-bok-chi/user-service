@@ -19,13 +19,12 @@ spring:
     generate-ddl: true
 
   application:
-    name: backend-skeleton-service
+    name: user-service
 
 logging:
   level:
-    org:
-      springframework:
-        web:
-          filter: DEBUG
-      hibernate:
+    org.springframework:
+        web: info
+        web.filter: DEBUG
+    org.hibernate:
         SQL=DEBUG:
