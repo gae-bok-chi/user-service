@@ -21,6 +21,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+        run:
+          cp src/main/resources/application.yaml.template ./src/main/resources/application.yaml
 
       ## gradle test
       - name: Test with Gradle
@@ -33,6 +35,7 @@ jobs:
       ## 웹 이미지 빌드 및 도커허브에 push
       - name: web docker build and push
         run: |
+          copy database-sink/src/main/resources/application.yaml.template ./database-sink/src/main/resources/application.yaml
           sudo apt update
           sudo apt install -y wget
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
