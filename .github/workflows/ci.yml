@@ -25,14 +25,12 @@ jobs:
       ## gradle test
       - name: Test with Gradle
         run: |
-          cp src/main/resources/application.yml.template ./src/main/resources/application.yml
           ./gradlew test --stacktrace
       
 
       ## gradle build
       - name: Build with Gradle
         run: |
-          cp src/main/resources/application.yml.template ./src/main/resources/application.yml
           ./gradlew bootJar --stacktrace -x test
 
       ## 웹 이미지 빌드 및 도커허브에 push

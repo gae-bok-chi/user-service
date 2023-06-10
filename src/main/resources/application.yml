@@ -9,6 +9,8 @@ eureka:
       defaultZone: http://${EUREKA_HOST}:${EUREKA_PORT}/eureka
 
 spring:
+  profiles:
+    active: dev
   application:
     name: user-service
   datasource:
@@ -20,7 +22,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validation
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true
