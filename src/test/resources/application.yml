@@ -6,7 +6,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://${EUREKA_HOST}:${EUREKA_PORT}/eureka
+      defaultZone: http://eureka:1234/eureka
 
 spring:
   application:
@@ -31,9 +31,9 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            redirect-uri: ${GOOGLE_REDIRECT_URI}
+            client-id: client-id
+            client-secret: client-secret
+            redirect-uri: redirect-uri
             scope:
               - profile
               - email
@@ -45,3 +45,9 @@ logging:
       web.filter: DEBUG
     org.hibernate:
       SQL=DEBUG:
+
+jwt:
+  key:
+    secret: jwt-secret-jwt-secret-jwt-secret
+  access-token-expiration-seconds: 1800
+  refresh-token-expiration-seconds: 25200
