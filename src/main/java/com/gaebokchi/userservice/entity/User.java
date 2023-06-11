@@ -9,7 +9,7 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "user_table")
 @Entity

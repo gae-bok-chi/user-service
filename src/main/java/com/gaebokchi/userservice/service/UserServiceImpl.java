@@ -5,12 +5,14 @@ import com.gaebokchi.userservice.exception.NotFoundUserException;
 import com.gaebokchi.userservice.repository.UserRepository;
 import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
                         .picture(picture)
                         .role(Role.USER)
                         .build());
+        log.debug("User save = {}", user);
         return userRepository.save(user);
     }
 

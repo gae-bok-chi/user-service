@@ -1,6 +1,8 @@
-package com.gaebokchi.userservice.vo;
+package com.gaebokchi.userservice.dto.req;
 
 import com.gaebokchi.userservice.exception.UnsupportedException;
+import com.gaebokchi.userservice.vo.OAuth2Type;
+import com.gaebokchi.userservice.vo.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,12 +25,12 @@ public class OAuth2Attributes {
 
     @SuppressWarnings("EnhancedSwitchMigration")
     public static OAuth2Attributes of(String registrationId, String attributeKey, Map<String, Object> attributes) {
-        switch (registrationId) {
-            case "google":
+        switch (OAuth2Type.valueOf(registrationId)) {
+            case GOOGLE:
                 return ofGoogle(attributeKey, attributes);
-            case "kakao":
+            case KAKAO:
                 return ofKakao(attributeKey, attributes);
-            case "naver":
+            case NAVER:
                 return ofNaver(attributeKey, attributes);
             default:
                 throw new UnsupportedException("지원하지 않는 로그인 방식입니다.");

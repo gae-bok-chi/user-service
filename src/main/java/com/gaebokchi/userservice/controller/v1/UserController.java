@@ -1,8 +1,10 @@
-package com.gaebokchi.userservice.controller;
+package com.gaebokchi.userservice.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,17 +13,15 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController("/api/v1")
-public class UserControllerV1 {
+@RestController
+@RequestMapping("/api/v1")
+public class UserController {
 
-    @GetMapping("/login_success")
-    public Map<?, ?> loginCheck() {
-        return Collections.singletonMap("login", "success");
-    }
+    private final Environment env;
 
-    @GetMapping("/logout_success")
-    public Map<?, ?> logoutCheck() {
-        return Collections.singletonMap("logout", "success");
+    @GetMapping("/server")
+    public Map<?, ?> server() {
+        return Collections.singletonMap("port", env.getProperty("server.port"));
     }
 
     @GetMapping("/home")
