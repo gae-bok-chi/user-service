@@ -1,11 +1,13 @@
 package com.gaebokchi.userservice.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import com.gaebokchi.userservice.vo.JwtCode;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +18,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 @Getter
 @Component
-public class JwtTokenProvider {
+public class JwtTokenizer {
 
     @Value("${jwt.key.secret}")
     private String secretKey;
@@ -61,18 +64,20 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public boolean verifySignature(String jws) {
+    public JwtCode verifySignature(String jws) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder()
+            Jwts.parserBuilder()
                     .setSigningKey(getKeyFromSecretKey())
                     .build()
                     .parseClaimsJws(jws);
-            return claims.getBody()
-                    .getExpiration()
-                    .after(new Date());
-        } catch (Exception e) {
-            return false;
+            return JwtCode.ACCESS;
+        } catch (ExpiredJwtException e) {
+            // 만료된 경우에는 refresh token을 확인하기 위해
+            return JwtCode.EXPIRED;
+        } catch (JwtException | IllegalArgumentException e) {
+            log.info("JwtException : {}", e.getMessage());
         }
+        return JwtCode.DENIED;
     }
 
     public String getSubject(String jws) {

@@ -1,7 +1,7 @@
 package com.gaebokchi.userservice.handler;
 
 import com.gaebokchi.userservice.service.UserService;
-import com.gaebokchi.userservice.utils.JwtTokenProvider;
+import com.gaebokchi.userservice.utils.JwtTokenizer;
 import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,11 +27,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenizer jwtTokenizer;
     private final UserService userService;
     @Autowired
     private Environment env;
 
+    @Transactional
     @SuppressWarnings("RedundantThrows")
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -52,13 +54,13 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     }
 
     private String delegateAccessToken(String email, List<Role> authorities) {
-        return jwtTokenProvider.generateAccessToken(Map.of("username", email, "roles", authorities),
-                email, jwtTokenProvider.getTokenExpiration(jwtTokenProvider.getAccessTokenExpirationSeconds()));
+        return jwtTokenizer.generateAccessToken(Map.of("username", email, "roles", authorities),
+                email, jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationSeconds()));
     }
 
     private String delegateRefreshToken(String email) {
-        return jwtTokenProvider.generateRefreshToken(
-                email, jwtTokenProvider.getTokenExpiration(jwtTokenProvider.getRefreshTokenExpirationSeconds()));
+        return jwtTokenizer.generateRefreshToken(
+                email, jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationSeconds()));
     }
 
     private URI createURI(String accessToken, String refreshToken) {

@@ -3,7 +3,7 @@ package com.gaebokchi.userservice.config;
 import com.gaebokchi.userservice.filter.JwtVerificationFilter;
 import com.gaebokchi.userservice.handler.OAuth2UserSuccessHandler;
 import com.gaebokchi.userservice.service.UserService;
-import com.gaebokchi.userservice.utils.JwtTokenProvider;
+import com.gaebokchi.userservice.utils.JwtTokenizer;
 import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ public class SecurityConfig {
 
     //    @SuppressWarnings("unused")
 //    private final CustomOAuth2UserService customOAuth2UserService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenizer jwtTokenizer;
     private final UserService userService;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/logout_success")
                 .and()
-                .addFilterBefore(new JwtVerificationFilter(jwtTokenProvider, userService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtVerificationFilter(jwtTokenizer, userService), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
 //                .loginPage("/login")
                 .successHandler(oAuth2UserSuccessHandler());
@@ -68,7 +68,7 @@ public class SecurityConfig {
 
     @Bean
     public OAuth2UserSuccessHandler oAuth2UserSuccessHandler() {
-        return new OAuth2UserSuccessHandler(jwtTokenProvider, userService);
+        return new OAuth2UserSuccessHandler(jwtTokenizer, userService);
     }
 
     @Bean
