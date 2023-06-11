@@ -33,10 +33,10 @@ class JwtTokenizerTest {
     public void verifyExpiredTest() throws InterruptedException {
         String accessToken = jwtTokenizer.generateAccessToken(Map.of("claim1", "A", "claim2", "B"),
                 "subject",
-                jwtTokenizer.generateTokenExpiration(1));
+                jwtTokenizer.generateTokenExpiration(2));
         Assertions.assertEquals(JwtCode.ACCESS, jwtTokenizer.verifySignature(accessToken));
 
-        TimeUnit.MILLISECONDS.sleep(Duration.ofSeconds(2).toMillis());
+        TimeUnit.MILLISECONDS.sleep(Duration.ofMillis(2500).toMillis());
 
         Assertions.assertEquals(JwtCode.EXPIRED, jwtTokenizer.verifySignature(accessToken));
     }

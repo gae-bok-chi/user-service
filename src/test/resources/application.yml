@@ -51,3 +51,5 @@ jwt:
     secret: jwt-secret-jwt-secret-jwt-secret
   access-token-expiration-seconds: 1800
   refresh-token-expiration-seconds: 25200
+
+domain-name: localhost
