@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User saveUser(OAuth2User oAuth2User) {
+    public User saveOrUpdateUser(OAuth2User oAuth2User) {
         Map<String, Object> attributes = oAuth2User.getAttributes();
         String email = String.valueOf(attributes.get("email"));
         String name = String.valueOf(attributes.get("name"));

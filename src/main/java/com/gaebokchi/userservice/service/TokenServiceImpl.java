@@ -40,15 +40,16 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public OAuthToken saveRefreshToken(String accessToken, String refreshToken, String authentication, User user) {
-        OAuthToken token = OAuthToken.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .authentication(authentication)
-                .user(user)
-                .build();
-        tokenRepository.save(token);
-        return null;
+    public OAuthToken saveOrUpdateRefreshToken(String accessToken, String refreshToken, String authentication, User user) {
+        OAuthToken oAuthToken = tokenRepository.findByUserId(user.getId())
+                .map(t -> t.updateToken(accessToken, refreshToken))
+                .orElse(OAuthToken.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .authentication(authentication)
+                        .user(user)
+                        .build());
+        return tokenRepository.save(oAuthToken);
     }
 
     @Transactional
@@ -70,8 +71,12 @@ public class TokenServiceImpl implements TokenService {
         OAuthToken token = findByEmail(email);
         Date date = Date.from(Instant.now().plus(5, ChronoUnit.MINUTES));
 
-        if (!token.getAccessToken().equals(accessToken) || !token.getRefreshToken().equals(refreshToken) ||
+        if (!token.getRefreshToken().equals(refreshToken)) {
+            throw new IllegalStateException("Refresh 토큰이 다른 토큰입니다. 다시 로그인해주세요.");
+        } else if (!token.getAccessToken().equals(accessToken) ||
                 jwtTokenizer.getExpiration(token.getRefreshToken()).before(date)) {
+            log.info("token expire : {}", jwtTokenizer.getExpiration(token.getRefreshToken()));
+            log.info("expire checker : {}", date);
             log.info("re gen refresh token");
             refreshToken = jwtTokenizer.generateRefreshToken(
                     email, jwtTokenizer.generateTokenExpiration(jwtTokenizer.getRefreshTokenExpirationSeconds()));
@@ -80,7 +85,7 @@ public class TokenServiceImpl implements TokenService {
         accessToken = jwtTokenizer.generateAccessToken(jwtTokenizer.generateClaims(email, Role.USER),
                 email, jwtTokenizer.generateTokenExpiration(jwtTokenizer.getAccessTokenExpirationSeconds()));
         token.updateToken(accessToken, refreshToken);
-        
+
         return RefreshResponseDto.builder()
                 .email(email)
                 .accessToken(accessToken)
