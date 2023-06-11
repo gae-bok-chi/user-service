@@ -51,8 +51,8 @@ management:
 logging:
   level:
     org.springframework:
-      web: DEBUG
-      web.filter: DEBUG
+      web: ${LOG_LEVEL}
+      web.filter: ${LOG_LEVEL}
     org.hibernate:
       SQL=DEBUG:
 
