@@ -5,8 +5,7 @@ import com.gaebokchi.userservice.utils.JwtTokenizer;
 import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -29,8 +28,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
     private final JwtTokenizer jwtTokenizer;
     private final UserService userService;
-    @Autowired
-    private Environment env;
+    @Value("${domain-name}")
+    private String domain;
 
     @Transactional
     @SuppressWarnings("RedundantThrows")
@@ -69,10 +68,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         queryParams.add("refresh_token", refreshToken);
 
         return UriComponentsBuilder.newInstance()
-                .scheme("http")
-//                .host("gaebokchi.duckdns.org")
-                .host(env.getProperty("LOGIN_REDIRECT_URL"))
-                .port(8080).path("/user-service/home").queryParams(queryParams)
+                .scheme("http").host(domain).port(8080)
+                .path("/user-service/home").queryParams(queryParams)
                 .build().toUri();
     }
 }

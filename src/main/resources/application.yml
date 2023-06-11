@@ -61,3 +61,5 @@ jwt:
     secret: ${JWT_SECRET_KEY}
   access-token-expiration-seconds: 1800 # 30 minutes
   refresh-token-expiration-seconds: 25200 # 420 minutes
+
+domain-name: ${DOMAIN_NAME}
