@@ -44,14 +44,14 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String email = oAuth2User.getAttribute("email");
         List<Role> authorities = List.of(Role.USER);
 
-        User user = userService.saveUser(oAuth2User);
+        User user = userService.saveOrUpdateUser(oAuth2User);
 
         String accessToken = jwtTokenizer.generateAccessToken(Map.of("username", email, "roles", authorities),
                 email, jwtTokenizer.generateTokenExpiration(jwtTokenizer.getAccessTokenExpirationSeconds()));
         String refreshToken = jwtTokenizer.generateRefreshToken(
                 email, jwtTokenizer.generateTokenExpiration(jwtTokenizer.getRefreshTokenExpirationSeconds()));
 
-        tokenService.saveRefreshToken(accessToken, refreshToken, Role.USER.getValue(), user);
+        tokenService.saveOrUpdateRefreshToken(accessToken, refreshToken, Role.USER.getValue(), user);
 
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);

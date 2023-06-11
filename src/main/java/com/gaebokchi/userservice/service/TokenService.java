@@ -9,7 +9,7 @@ public interface TokenService {
 
     OAuthToken findByEmail(String email);
 
-    OAuthToken saveRefreshToken(String accessToken, String refreshToken, String authentication, User user);
+    OAuthToken saveOrUpdateRefreshToken(String accessToken, String refreshToken, String authentication, User user);
 
     RefreshResponseDto refreshToken(RefreshRequestDto refreshRequestDto);
 }
