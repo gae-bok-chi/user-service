@@ -23,7 +23,7 @@ class JwtTokenizerTest {
         String accessToken = jwtTokenizer.generateAccessToken(
                 Map.of("claim1", "A", "claim2", "B"),
                 "subject",
-                jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationSeconds()));
+                jwtTokenizer.generateTokenExpiration(jwtTokenizer.getAccessTokenExpirationSeconds()));
 
         Assertions.assertEquals(JwtCode.ACCESS, jwtTokenizer.verifySignature(accessToken));
     }
@@ -33,7 +33,7 @@ class JwtTokenizerTest {
     public void verifyExpiredTest() throws InterruptedException {
         String accessToken = jwtTokenizer.generateAccessToken(Map.of("claim1", "A", "claim2", "B"),
                 "subject",
-                jwtTokenizer.getTokenExpiration(1));
+                jwtTokenizer.generateTokenExpiration(1));
         Assertions.assertEquals(JwtCode.ACCESS, jwtTokenizer.verifySignature(accessToken));
 
         TimeUnit.MILLISECONDS.sleep(Duration.ofSeconds(2).toMillis());
@@ -46,7 +46,7 @@ class JwtTokenizerTest {
     public void verifyDeniedTest() {
         String accessToken = jwtTokenizer.generateAccessToken(Map.of("claim1", "A", "claim2", "B"),
                 "subject",
-                jwtTokenizer.getTokenExpiration(1));
+                jwtTokenizer.generateTokenExpiration(1));
 
         Assertions.assertEquals(JwtCode.DENIED, jwtTokenizer.verifySignature("A" + accessToken + "A"));
     }

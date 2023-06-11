@@ -1,7 +1,7 @@
 package com.gaebokchi.userservice.service;
 
+import com.gaebokchi.userservice.dto.req.OAuth2Attributes;
 import com.gaebokchi.userservice.exception.UnsupportedException;
-import com.gaebokchi.userservice.vo.OAuth2Attributes;
 import com.gaebokchi.userservice.vo.OAuth2Type;
 import com.gaebokchi.userservice.vo.Role;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         /* OAuth2UserService */
         OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-//        User user = saveOrUpdate(attributes);
         Map<String, Object> userAttribute = oAuth2Attributes.convertToMap();
 
         return new DefaultOAuth2User(
