@@ -36,6 +36,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        log.debug("oAuth2User = " + oAuth2User);
+        log.debug("oAuth2User.getAttributes() = " + oAuth2User.getAttributes());
 
         String email = oAuth2User.getAttribute("email");
         List<Role> authorities = List.of(Role.USER);
