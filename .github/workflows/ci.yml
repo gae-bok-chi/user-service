@@ -25,34 +25,10 @@ jobs:
       ## gradle test
       - name: Test with Gradle
         run: ./gradlew test --stacktrace
-      
 
       ## gradle build
       - name: Build with Gradle
         run: ./gradlew bootJar --stacktrace -x test
-
-      #      - name: Set up QEMU
-      #        uses: docker/setup-qemu-action@v2
-      #
-      #      - name: Set up Docker Buildx
-      #        uses: docker/setup-buildx-action@v2
-      #
-      #      - name: Docker Login
-      #        uses: docker/login-action@v2
-      #        with:
-      #          username: ${{ secrets.DOCKER_USERNAME }}
-      #          password: ${{ secrets.DOCKER_PASSWORD }}
-      #
-      #      - name: Build and push
-      #        uses: docker/build-push-action@v4
-      #        with:
-      #          context: .
-      #          push: true
-      #          tags: ${{ secrets.DOCKER_USERNAME }}/$APPLICATION_NAME:$VERSION
-      #          platforms: |
-      #            linux/amd64
-      #            linux/arm64
-      #            linux/arm/v8
 
       ## 웹 이미지 빌드 및 도커허브에 push
       - name: web docker build and push
@@ -66,5 +42,3 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_USERNAME }}/$APPLICATION_NAME:$VERSION .
           docker push ${{ secrets.DOCKER_USERNAME }}/$APPLICATION_NAME:$VERSION
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/$APPLICATION_NAME:$VERSION-arm -f dockerfile-arm .
-          docker push ${{ secrets.DOCKER_USERNAME }}/$APPLICATION_NAME:$VERSION-arm
