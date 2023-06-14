@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.gaebokchi'
 version = '0.0.6'
-sourceCompatibility = '17'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
